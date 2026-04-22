@@ -25,8 +25,8 @@ public class ConsoleReportPrinter {
         sb.append("Rating medio: ").append(student.getRatingAvg()).append("\n");
         sb.append("Numero recensioni: ").append(student.getRatingCount()).append("\n");
         sb.append("----------------------------------------\n");
-        sb.append("OFFERS\n");
 
+        sb.append("OFFERS\n");
         if (offers.isEmpty()) {
             sb.append("  Nessuna offer presente\n");
         } else {
@@ -41,7 +41,6 @@ public class ConsoleReportPrinter {
         }
 
         sb.append("REQUESTS\n");
-
         if (requests.isEmpty()) {
             sb.append("  Nessuna request presente\n");
         } else {
@@ -122,6 +121,33 @@ public class ConsoleReportPrinter {
         List<Student> ordered = new ArrayList<>(students);
 
         ordered.sort(
-                Comparapackage it.skillswap.app;
+                Comparator.comparingDouble(Student::getRatingAvg).reversed()
+                        .thenComparing(Comparator.comparingInt(Student::getRatingCount).reversed())
+                        .thenComparing(Student::getName)
+        );
 
+        sb.append("========================================\n");
+        sb.append("              LEADERBOARD\n");
+        sb.append("========================================\n");
 
+        if (ordered.isEmpty()) {
+            sb.append("Nessuno studente presente\n");
+            return sb.toString();
+        }
+
+        int posizione = 1;
+        for (Student student : ordered) {
+            sb.append(posizione).append(". ")
+                    .append(student.getName())
+                    .append(" [").append(student.getId()).append("]")
+                    .append("\n");
+            sb.append("   Classe: ").append(student.getStudentClass()).append("\n");
+            sb.append("   Rating medio: ").append(student.getRatingAvg()).append("\n");
+            sb.append("   Reviews: ").append(student.getRatingCount()).append("\n");
+            sb.append("----------------------------------------\n");
+            posizione++;
+        }
+
+        return sb.toString();
+    }
+}
