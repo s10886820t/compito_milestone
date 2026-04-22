@@ -6,12 +6,14 @@ import it.skillswap.domain.Request;
 import it.skillswap.domain.SkillLevel;
 import it.skillswap.domain.Student;
 import it.skillswap.storage.SkillSwapState;
-
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class MatchingService {
+
     private final SkillSwapState state;
 
     public MatchingService(SkillSwapState state) {
@@ -28,6 +30,7 @@ public class MatchingService {
         }
 
         List<MatchResult> results = new ArrayList<>();
+        Set<String> seen = new HashSet<>();
 
         for (Request myRequest : state.getRequests().values()) {
             if (!myRequest.getStudent().getId().equals(studentId)) {
@@ -152,7 +155,10 @@ public class MatchingService {
                                 reason.toString()
                         );
 
-                        results.add(result);
+                        String key = otherOffer.getStudent().getId() + "_" + otherOffer.getId();
+                        if (seen.add(key)) {
+                            results.add(result);
+                        }
                     }
                 }
             }
