@@ -1,12 +1,17 @@
 package it.skillswap.domain;
 
 public class Offer {
+
     private final String id;
     private final Student student;
     private final Skill skill;
     private final SkillLevel level;
     private final String note;
     private boolean active;
+
+    public Offer(String id, Student student, Skill skill, SkillLevel level, String note) {
+        this(id, student, skill, level, note, true);
+    }
 
     public Offer(String id, Student student, Skill skill, SkillLevel level, String note, boolean active) {
         if (id == null || id.isBlank()) {
@@ -64,10 +69,10 @@ public class Offer {
 
     @Override
     public String toString() {
-        return id + " - student=" + student.getName() +
-                ", skill=" + skill.getName() +
-                ", level=" + level +
-                ", active=" + active +
-                ", note=" + note;
+        return id + " - student=" + student.getName()
+                + ", skill=" + skill.getName()
+                + ", level=" + level
+                + ", active=" + active
+                + ", note=" + note;
     }
 }
