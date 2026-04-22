@@ -1,6 +1,7 @@
 package it.skillswap.domain;
 
 public class Student {
+
     private final String id;
     private final String name;
     private final String studentClass;
@@ -24,6 +25,9 @@ public class Student {
         }
         if (email == null || email.isBlank()) {
             throw new IllegalArgumentException("Email obbligatoria");
+        }
+        if (!email.contains("@")) {
+            throw new IllegalArgumentException("Email non valida");
         }
         if (ratingAvg < 0 || ratingAvg > 5) {
             throw new IllegalArgumentException("Rating medio non valido");
