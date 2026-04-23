@@ -30,7 +30,7 @@ public class MatchingService {
         }
 
         List<MatchResult> results = new ArrayList<>();
-        Set<String> seen = new HashSet<>();
+
 
         for (Request myRequest : state.getRequests().values()) {
             if (!myRequest.getStudent().getId().equals(studentId)) {

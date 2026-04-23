@@ -124,4 +124,3 @@ public class ConsoleReportPrinter {
         ordered.sort(
                 Comparapackage it.skillswap.app;
 
-
