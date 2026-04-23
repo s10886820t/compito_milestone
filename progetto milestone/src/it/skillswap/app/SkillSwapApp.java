@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SkillSwapApp {
+
+    private static final String LINE = "============================================================";
+
     public static void main(String[] args) {
         SkillSwapService service = new SkillSwapService(new InMemoryStorage());
         service.seedSkills();
@@ -25,6 +28,8 @@ public class SkillSwapApp {
 
         Scanner sc = new Scanner(System.in);
         boolean running = true;
+
+        printWelcome();
 
         while (running) {
             printMenu();
@@ -50,44 +55,64 @@ public class SkillSwapApp {
                     case "16" -> addReview(sc, reviewService);
                     case "17" -> listReviews(reviewService);
                     case "18" -> showLeaderboard(service, printer);
-                    case "0" -> running = false;
-                    default -> System.out.println("Scelta non valida");
+                    case "0" -> {
+                        System.out.println("\n" + LINE);
+                        System.out.println(" Chiusura SkillSwap School...");
+                        System.out.println(LINE);
+                        running = false;
+                    }
+                    default -> System.out.println("\nScelta non valida. Riprova.\n");
                 }
             } catch (Exception e) {
-                System.out.println("Errore: " + e.getMessage());
+                System.out.println("\n[ERRORE] " + e.getMessage() + "\n");
             }
-
-            System.out.println();
         }
 
         sc.close();
     }
 
+    private static void printWelcome() {
+        System.out.println(LINE);
+        System.out.println("   _____ _    _ _____ _      _       _____ _          __      __");
+        System.out.println("  / ____| |  | |_   _| |    | |     / ____| |         \\ \\    / /");
+        System.out.println(" | (___ | |__| | | | | |    | |    | (___ | |_ _   _   \\ \\  / / ");
+        System.out.println("  \\___ \\|  __  | | | | |    | |     \\___ \\| __| | | |   \\ \\/ /  ");
+        System.out.println("  ____) | |  | |_| |_| |____| |____ ____) | |_| |_| |    \\  /   ");
+        System.out.println(" |_____/|_|  |_|_____|______|______|_____/ \\__|\\__,_|     \\/    ");
+        System.out.println("                    SCHOOL EXCHANGE PLATFORM");
+        System.out.println(LINE);
+    }
+
     private static void printMenu() {
-        System.out.println("=== SkillSwap School ===");
-        System.out.println("1. Crea studente");
-        System.out.println("2. Lista studenti");
-        System.out.println("3. Lista skill");
-        System.out.println("4. Aggiungi offer");
-        System.out.println("5. Aggiungi request");
-        System.out.println("6. Lista offers");
-        System.out.println("7. Lista requests");
-        System.out.println("8. Profilo studente");
-        System.out.println("9. One-way matches");
-        System.out.println("10. Swap matches");
-        System.out.println("11. Propose exchange");
-        System.out.println("12. Accept exchange");
-        System.out.println("13. Complete exchange");
-        System.out.println("14. Cancel exchange");
-        System.out.println("15. Lista exchanges");
-        System.out.println("16. Aggiungi review");
-        System.out.println("17. Lista reviews");
-        System.out.println("18. Leaderboard");
-        System.out.println("0. Esci");
+        System.out.println();
+        System.out.println(LINE);
+        System.out.println("                        MENU PRINCIPALE");
+        System.out.println(LINE);
+        System.out.println(" [1]  Crea studente");
+        System.out.println(" [2]  Lista studenti");
+        System.out.println(" [3]  Lista skill");
+        System.out.println(" [4]  Aggiungi offer");
+        System.out.println(" [5]  Aggiungi request");
+        System.out.println(" [6]  Lista offers");
+        System.out.println(" [7]  Lista requests");
+        System.out.println(" [8]  Profilo studente");
+        System.out.println(" [9]  One-way matches");
+        System.out.println("[10]  Swap matches");
+        System.out.println("[11]  Propose exchange");
+        System.out.println("[12]  Accept exchange");
+        System.out.println("[13]  Complete exchange");
+        System.out.println("[14]  Cancel exchange");
+        System.out.println("[15]  Lista exchanges");
+        System.out.println("[16]  Aggiungi review");
+        System.out.println("[17]  Lista reviews");
+        System.out.println("[18]  Leaderboard");
+        System.out.println(" [0]  Esci");
+        System.out.println(LINE);
         System.out.print("Scelta: ");
     }
 
     private static void createStudent(Scanner sc, SkillSwapService service) {
+        System.out.println("\n--- CREA STUDENTE ---");
         System.out.print("Nome: ");
         String name = sc.nextLine();
 
@@ -98,11 +123,15 @@ public class SkillSwapApp {
         String email = sc.nextLine();
 
         Student student = service.registerStudent(name, studentClass, email);
-        System.out.println("Creato: " + student);
+
+        System.out.println("\n[OK] Studente creato con successo");
+        System.out.println(student);
     }
 
     private static void listStudents(SkillSwapService service) {
         List<Student> students = service.listStudents();
+        System.out.println("\n--- LISTA STUDENTI ---");
+
         if (students.isEmpty()) {
             System.out.println("Nessuno studente presente");
             return;
@@ -115,6 +144,8 @@ public class SkillSwapApp {
 
     private static void listSkills(SkillSwapService service) {
         List<Skill> skills = service.listSkills();
+        System.out.println("\n--- LISTA SKILL ---");
+
         if (skills.isEmpty()) {
             System.out.println("Nessuna skill presente");
             return;
@@ -126,6 +157,8 @@ public class SkillSwapApp {
     }
 
     private static void addOffer(Scanner sc, SkillSwapService service) {
+        System.out.println("\n--- AGGIUNGI OFFER ---");
+
         System.out.print("Student ID: ");
         String studentId = sc.nextLine();
 
@@ -139,10 +172,14 @@ public class SkillSwapApp {
         String note = sc.nextLine();
 
         Offer offer = service.addOffer(studentId, skillId, level, note);
-        System.out.println("Offer creata: " + offer);
+
+        System.out.println("\n[OK] Offer creata con successo");
+        System.out.println(offer);
     }
 
     private static void addRequest(Scanner sc, SkillSwapService service) {
+        System.out.println("\n--- AGGIUNGI REQUEST ---");
+
         System.out.print("Student ID: ");
         String studentId = sc.nextLine();
 
@@ -156,11 +193,15 @@ public class SkillSwapApp {
         String note = sc.nextLine();
 
         Request request = service.addRequest(studentId, skillId, minLevel, note);
-        System.out.println("Request creata: " + request);
+
+        System.out.println("\n[OK] Request creata con successo");
+        System.out.println(request);
     }
 
     private static void listOffers(SkillSwapService service) {
         List<Offer> offers = service.listOffers();
+        System.out.println("\n--- LISTA OFFERS ---");
+
         if (offers.isEmpty()) {
             System.out.println("Nessuna offer presente");
             return;
@@ -173,6 +214,8 @@ public class SkillSwapApp {
 
     private static void listRequests(SkillSwapService service) {
         List<Request> requests = service.listRequests();
+        System.out.println("\n--- LISTA REQUESTS ---");
+
         if (requests.isEmpty()) {
             System.out.println("Nessuna request presente");
             return;
@@ -184,6 +227,7 @@ public class SkillSwapApp {
     }
 
     private static void listStudentData(Scanner sc, SkillSwapService service, ConsoleReportPrinter printer) {
+        System.out.println("\n--- PROFILO STUDENTE ---");
         System.out.print("Student ID: ");
         String studentId = sc.nextLine();
 
@@ -200,16 +244,18 @@ public class SkillSwapApp {
     }
 
     private static void findOneWayMatches(Scanner sc, SkillSwapService service, ConsoleReportPrinter printer) {
+        System.out.println("\n--- ONE-WAY MATCHES ---");
         System.out.print("Student ID: ");
         String studentId = sc.nextLine();
 
         MatchingService matchingService = new MatchingService(service.getState());
         List<MatchResult> matches = matchingService.findOneWayMatches(studentId);
 
-        System.out.println(printer.printMatches("ONE WAY MATCHES", matches));
+        System.out.println(printer.printMatches("ONE-WAY MATCHES", matches));
     }
 
     private static void findSwapMatches(Scanner sc, SkillSwapService service, ConsoleReportPrinter printer) {
+        System.out.println("\n--- SWAP MATCHES ---");
         System.out.print("Student ID: ");
         String studentId = sc.nextLine();
 
@@ -220,6 +266,7 @@ public class SkillSwapApp {
     }
 
     private static void proposeExchange(Scanner sc, SkillSwapService service, ConsoleReportPrinter printer) {
+        System.out.println("\n--- PROPOSE EXCHANGE ---");
         System.out.print("Offer ID: ");
         String offerId = sc.nextLine();
 
@@ -229,41 +276,50 @@ public class SkillSwapApp {
         ExchangeService exchangeService = new ExchangeService(service.getStorage(), service.getState());
         Exchange exchange = exchangeService.propose(offerId, requestId);
 
+        System.out.println("\n[OK] Exchange proposta con successo");
         System.out.println(printer.printExchangeDetails(exchange));
     }
 
     private static void acceptExchange(Scanner sc, SkillSwapService service, ConsoleReportPrinter printer) {
+        System.out.println("\n--- ACCEPT EXCHANGE ---");
         System.out.print("Exchange ID: ");
         String exchangeId = sc.nextLine();
 
         ExchangeService exchangeService = new ExchangeService(service.getStorage(), service.getState());
         Exchange exchange = exchangeService.accept(exchangeId);
 
+        System.out.println("\n[OK] Exchange accettata");
         System.out.println(printer.printExchangeDetails(exchange));
     }
 
     private static void completeExchange(Scanner sc, SkillSwapService service, ConsoleReportPrinter printer) {
+        System.out.println("\n--- COMPLETE EXCHANGE ---");
         System.out.print("Exchange ID: ");
         String exchangeId = sc.nextLine();
 
         ExchangeService exchangeService = new ExchangeService(service.getStorage(), service.getState());
         Exchange exchange = exchangeService.complete(exchangeId);
 
+        System.out.println("\n[OK] Exchange completata");
         System.out.println(printer.printExchangeDetails(exchange));
     }
 
     private static void cancelExchange(Scanner sc, SkillSwapService service, ConsoleReportPrinter printer) {
+        System.out.println("\n--- CANCEL EXCHANGE ---");
         System.out.print("Exchange ID: ");
         String exchangeId = sc.nextLine();
 
         ExchangeService exchangeService = new ExchangeService(service.getStorage(), service.getState());
         Exchange exchange = exchangeService.cancel(exchangeId);
 
+        System.out.println("\n[OK] Exchange cancellata");
         System.out.println(printer.printExchangeDetails(exchange));
     }
 
     private static void listExchanges(SkillSwapService service, ConsoleReportPrinter printer) {
         List<Exchange> exchanges = service.listExchanges();
+        System.out.println("\n--- LISTA EXCHANGES ---");
+
         if (exchanges.isEmpty()) {
             System.out.println("Nessun exchange presente");
             return;
@@ -275,6 +331,8 @@ public class SkillSwapApp {
     }
 
     private static void addReview(Scanner sc, ReviewService reviewService) {
+        System.out.println("\n--- AGGIUNGI REVIEW ---");
+
         System.out.print("Exchange ID: ");
         String exchangeId = sc.nextLine();
 
@@ -288,26 +346,22 @@ public class SkillSwapApp {
         String comment = sc.nextLine();
 
         Review review = reviewService.addReview(exchangeId, reviewerId, stars, comment);
-        System.out.println("Review aggiunta: " + review.getId());
+
+        System.out.println("\n[OK] Review aggiunta con successo");
+        System.out.println(review);
     }
 
     private static void listReviews(ReviewService reviewService) {
         List<Review> reviews = reviewService.listReviews();
+        System.out.println("\n--- LISTA REVIEWS ---");
+
         if (reviews.isEmpty()) {
             System.out.println("Nessuna review presente");
             return;
         }
 
         for (Review review : reviews) {
-            System.out.println(
-                    review.getId() +
-                    " - exchange=" + review.getExchange().getId() +
-                    ", reviewer=" + review.getReviewer().getName() +
-                    ", reviewee=" + review.getReviewee().getName() +
-                    ", stars=" + review.getStars() +
-                    ", comment=" + review.getComment() +
-                    ", createdAt=" + review.getCreatedAt()
-            );
+            System.out.println(review);
         }
     }
 
