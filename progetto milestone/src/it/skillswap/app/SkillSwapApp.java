@@ -13,7 +13,6 @@ import it.skillswap.service.MatchingService;
 import it.skillswap.service.ReviewService;
 import it.skillswap.service.SkillSwapService;
 import it.skillswap.storage.InMemoryStorage;
-
 import java.util.List;
 import java.util.Scanner;
 
