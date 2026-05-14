@@ -154,7 +154,7 @@ public class MatchingService {
                                 score,
                                 reason.toString()
                         );
-
+Set<String> seen = new HashSet<>();
                         String key = otherOffer.getStudent().getId() + "_" + otherOffer.getId();
                         if (seen.add(key)) {
                             results.add(result);
